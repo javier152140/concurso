@@ -3,15 +3,15 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-    
+
 // =================================================================
-// 1. CONFIGURACIÓN DE LA BASE DE DATOS - ¡ACTUALIZA ESTOS VALORES!
+// 1. CONFIGURACIÓN DE LA BASE DE DATOS - ¡ESTA ES LA CONFIGURACIÓN ESTÁNDAR PARA XAMPP/MAMP!
 // =================================================================
 
 $servername = "localhost"; 
-$username = "root";             // <-- CAMBIA ESTO si tu usuario no es 'root'
-$password = "";                 // <-- CAMBIA ESTO si tu contraseña no es vacía
-$dbname = "sella_db";           // <-- CAMBIA ESTO si tu base de datos se llama diferente
+$username = "root";     
+$password = "";         
+$dbname = "sella_db";   
 
 // Crea conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -42,7 +42,7 @@ function mostrar_resultado($titulo, $mensaje, $clase_color, $nombre = null, $ema
         <div class="contenedor-resultado ' . $clase_color . '">
             <h2>' . $titulo . '</h2>
             <p>' . $mensaje . '</p>';
-            
+
             // Si es éxito, mostramos los detalles
             if ($clase_color == 'success') {
                 echo '<div class="detalle">';
@@ -54,7 +54,7 @@ function mostrar_resultado($titulo, $mensaje, $clase_color, $nombre = null, $ema
             }
 
             echo '<a href="alquiler.html" class="cta-button">Hacer otra reserva</a>
-                  <a href="index.html" class="cta-button" style="background-color: #555; margin-left: 10px;">Volver al inicio</a>
+                <a href="index.html" class="cta-button" style="background-color: #555; margin-left: 10px;">Volver al inicio</a>
         </div>
     </body>
     </html>';
@@ -71,14 +71,14 @@ if ($conn->connect_error) {
 // =================================================================
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
     // Sanitizar y obtener datos
     $nombre = $conn->real_escape_string($_POST['nombre']);
     $email = $conn->real_escape_string($_POST['email']);
     $telefono = $conn->real_escape_string($_POST['telefono']);
     $tipo_canoa = $conn->real_escape_string($_POST['tipo_canoa']); 
     $fecha_inicio = $conn->real_escape_string($_POST['fecha_inicio']);
-    
+
     // Cálculo de precio
     $precio_total = 0;
     if ($tipo_canoa == 'individual') {
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // =================================================================
     // 3. PROCESAR CLIENTE (Buscar o Insertar)
     // =================================================================
-    
+
     $sql_cliente_check = "SELECT ID_Cliente FROM Clientes WHERE Email = '$email'";
     $result = $conn->query($sql_cliente_check);
     $id_cliente = 0;
@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_cliente = $row['ID_Cliente'];
     } else {
         $sql_insert_cliente = "INSERT INTO Clientes (Nombre, Email, Telefono) VALUES ('$nombre', '$email', '$telefono')";
-        
+
         if ($conn->query($sql_insert_cliente) === TRUE) {
             $id_cliente = $conn->insert_id;
         } else {
@@ -114,8 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 4. VERIFICAR DISPONIBILIDAD DE CANOA E INSERTAR RESERVA
     // =================================================================
 
-    // Buscar la primera canoa disponible de ese tipo que no tenga una reserva solapada.
-    // Asumimos que el alquiler dura 4 horas.
+    // Búsqueda de disponibilidad
     $sql_canoa_disponible = "
         SELECT ID_Canoa FROM Canoas c
         WHERE c.Tipo = '$tipo_canoa' 
@@ -127,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 (Fecha_Inicio >= '$fecha_inicio' AND Fecha_Fin <= DATE_ADD('$fecha_inicio', INTERVAL 4 HOUR))
         )
         LIMIT 1";
-    
+
     $result_canoa = $conn->query($sql_canoa_disponible);
     $id_canoa = 0;
 
@@ -135,11 +134,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row_canoa = $result_canoa->fetch_assoc();
         $id_canoa = $row_canoa['ID_Canoa'];
 
-        // Calcular la hora de finalización
+        // Calcular la hora de finalización (4 horas de alquiler)
         $fecha_fin_calculada = date('Y-m-d H:i:s', strtotime($fecha_inicio . ' +4 hours'));
 
         $sql_insert_reserva = "INSERT INTO Reservas (ID_Canoa, ID_Cliente, Fecha_Inicio, Fecha_Fin, Precio_Total) 
-                               VALUES ('$id_canoa', '$id_cliente', '$fecha_inicio', '$fecha_fin_calculada', '$precio_total')";
+                            VALUES ('$id_canoa', '$id_cliente', '$fecha_inicio', '$fecha_fin_calculada', '$precio_total')";
 
         if ($conn->query($sql_insert_reserva) === TRUE) {
             // ÉXITO
@@ -153,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $precio_total
             );
         } else {
-            mostrar_resultado("❌ Error al Reservar", "Ocurrió un error al guardar la reserva en la base de datos. Esto suele ser un fallo en las tablas SQL.", "error");
+            mostrar_resultado("❌ Error al Reservar", "Ocurrió un error al guardar la reserva. Posiblemente por tablas SQL no creadas.", "error");
         }
 
     } else {

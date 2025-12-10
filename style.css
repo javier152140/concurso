@@ -198,3 +198,88 @@
         grid-column: span 1;
     }
 }
+/* --- ESTILOS DE NAVEGACIÓN LATERAL MODERNA (MENU FLOTANTE) --- */
+
+/* Variables para el nuevo diseño del menú */
+:root {
+  --menu-bg: rgba(255, 255, 255, 0.7);
+  --border: rgba(0, 0, 0, 0.06);
+  --accent: #2563eb;
+  --muted: #6b7280;
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+/* El código original del menú asume un BODY centrado. Lo posicionamos fijo en la parte superior izquierda. */
+.menu-container {
+    position: fixed;
+    top: 50px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.menu {
+  padding: 1rem;
+  background: var(--menu-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column; /* Coloca los elementos verticalmente para un menú lateral */
+  gap: 14px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50px; /* Ancho inicial más compacto */
+  height: 50px;
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.link:hover,
+.link:focus-visible {
+  width: 180px; /* Ancho expandido al pasar el ratón */
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Importar la fuente de iconos de Google (necesaria para que los íconos se vean) */
+/* Debes añadir esta línea dentro de <head> en TUS ARCHIVOS HTML si no la tienes ya */
+/* @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'); */
+
+.link-icon {
+  font-family: "Material Symbols Rounded";
+  font-size: 26px;
+  margin-left: 12px;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.link:hover .link-icon {
+  transform: scale(1.1);
+}
+
+.link-title {
+  margin-left: 12px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity var(--transition), transform var(--transition);
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.link:hover .link-title,
+.link:focus-visible .link-title {
+  opacity: 1;
+  transform: translateX(0);
+}

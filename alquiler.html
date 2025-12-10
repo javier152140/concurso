@@ -8,48 +8,135 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
+
     <header class="main-header">
         <div class="header-content">
             <h1>Descenso Internacional del Sella</h1>
             <p>La Fiesta de las Piraguas. Asturias, España.</p>
         </div>
     </header>
+
     <nav class="main-nav">
         <ul>
             <li><a href="index.html">Inicio</a></li>
             <li><a href="historia.html">Historia</a></li>
             <li><a href="datos.html">Datos Históricos</a></li>
             <li><a href="recorrido.html">Recorrido</a></li>
-            <li><a href="alquiler.html">Alquiler Canoas</a></li>
+            <li class="active"><a href="alquiler.html">Alquiler Canoas</a></li>
             <li><a href="participacion.html">Participación</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
     </nav>
 
     <main class="container">
-        <section id="alquiler" class="content-section">
-            <h3>🚣 Alquiler de Canoas y Actividades en el Sella</h3>
-            <p>Si quieres vivir la experiencia del Sella sin competir, ¡puedes descender el río a tu propio ritmo! Numerosas empresas locales ofrecen el servicio de alquiler de canoas, ideales para familias, grupos de amigos o aventureros.</p>
+        
+        <section id="tarifas" class="info-section">
+            <h2>🛶 Elige tu Aventura en el Sella</h2>
+            <p class="subtitulo-tarifas">Todos los precios incluyen material (canoa, remo, chaleco, bidón estanco) y el servicio de transporte de vuelta.</p>
             
-            <div class="alquiler-info">
-                <div class="alquiler-item">
-                    <h4>Recorridos Flexibles</h4>
-                    <p>Puedes elegir la distancia: desde un trayecto corto de 7 km hasta el recorrido completo de 15 km, con puntos de recogida fijos.</p>
-                </div>
-                <div class="alquiler-item">
-                    <h4>Equipamiento Incluido</h4>
-                    <p>El servicio generalmente incluye la canoa (individual o doble), remos, chaleco salvavidas, bidón estanco, e incluso el picnic y el transporte de vuelta.</p>
-                </div>
-                <div class="alquiler-item">
-                    <h4>Mejor Época</h4>
-                    <p>La temporada alta para el alquiler de canoas recreativas va de **abril a octubre**. Se recomienda reservar con antelación, especialmente en verano.</p>
-                </div>
+            <div class="cards-container">
+                
+                <article class="rental-card">
+                    <h3>Canoa Individual (K-1)</h3>
+                    <div class="price-box">
+                        <span class="price-value">30€</span>
+                        <span class="price-unit">por persona</span>
+                    </div>
+                    <p>Perfecta para la aventura en solitario o para palistas experimentados.</p>
+                    <ul class="features-list">
+                        <li><i class="icon-check"></i> Capacidad: **1 Adulto**</li>
+                        <li><i class="icon-check"></i> Máxima libertad de movimiento</li>
+                        <li><i class="icon-check"></i> Ideal para la competición personal</li>
+                    </ul>
+                    <a href="#reserva-canoas" class="card-cta">Reservar Individual</a>
+                </article>
+
+                <article class="rental-card">
+                    <h3>Canoa Doble (K-2)</h3>
+                    <div class="price-box">
+                        <span class="price-value">25€</span>
+                        <span class="price-unit">por persona</span>
+                    </div>
+                    <p>La opción más popular. Ideal para parejas o amigos. ¡El mejor precio!</p>
+                    <ul class="features-list">
+                        <li><i class="icon-check"></i> Capacidad: **2 Adultos**</li>
+                        <li><i class="icon-check"></i> Estabilidad y coordinación</li>
+                        <li><i class="icon-check"></i> Incluye bidón estanco grande</li>
+                    </ul>
+                    <a href="#reserva-canoas" class="card-cta">Reservar Doble</a>
+                </article>
+
+                <article class="rental-card">
+                    <h3>Canoa Familiar/Triple</h3>
+                    <div class="price-box">
+                        <span class="price-value">20€</span>
+                        <span class="price-unit">por persona</span>
+                    </div>
+                    <p>Para familias con niños pequeños. Máxima seguridad y espacio.</p>
+                    <ul class="features-list">
+                        <li><i class="icon-check"></i> Capacidad: **2 Adultos + 1-2 Niños**</li>
+                        <li><i class="icon-check"></i> Asientos especiales para niños</li>
+                        <li><i class="icon-check"></i> Seguridad y confort garantizados</li>
+                    </ul>
+                    <a href="#reserva-canoas" class="card-cta">Reservar Familiar</a>
+                </article>
+
             </div>
-            
-            <p class="cta-alquiler">¡Explora la belleza del Parque Nacional de los Picos de Europa desde el río Sella!</p>
-            
-            <a href="https://ejemplo.com/reservas" target="_blank" class="cta-button secundario">Buscar Empresas de Alquiler</a>
         </section>
+
+
+        <section id="reserva-canoas" class="formulario-profesional">
+            <h2>📝 Reserva tu Descenso</h2>
+            <p class="subtitulo-form">Completa los detalles de tu alquiler y asegura tu plaza en el Sella.</p>
+            
+            <form action="procesar_reserva.php" method="POST" class="form-grid">
+                
+                <div class="form-group-cols">
+                    <h3>Detalles de tu Alquiler</h3>
+                    
+                    <div class="campo">
+                        <label for="tipo_canoa">Tipo de Canoa:</label>
+                        <select id="tipo_canoa" name="tipo_canoa" required class="custom-select input-animado">
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option value="individual">Individual (1 pers.) - 30 €</option>
+                            <option value="doble">Doble (2 pers.) - 50 €</option>
+                            <option value="triple">Triple (3 pers.) - 60 €</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="fecha_inicio">Fecha y Hora de Inicio:</label>
+                        <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required class="input-animado">
+                    </div>
+                </div>
+
+                <div class="form-group-cols">
+                    <h3>Datos de Contacto</h3>
+                    
+                    <div class="campo">
+                        <label for="nombre">Nombre Completo (Responsable):</label>
+                        <input type="text" id="nombre" name="nombre" required class="input-animado" placeholder="Ej: Marta García">
+                    </div>
+
+                    <div class="campo">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required class="input-animado" placeholder="ejemplo@correo.com">
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" required class="input-animado" placeholder="Ej: 600 111 222">
+                    </div>
+                </div>
+                
+                <div class="full-width-button">
+                    <button type="submit" class="cta-button animated-button">
+                        CONFIRMAR RESERVA Y PAGO
+                    </button>
+                </div>
+            </form>
+        </section>
+        
     </main>
 
     <footer class="main-footer">
